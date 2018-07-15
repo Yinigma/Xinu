@@ -38,6 +38,11 @@
 
 #define NDESC		5	/* must be odd to make procent 4N bytes	*/
 
+//Added by Ben Denison
+//username: bdenison
+
+#define MAXPRIO		300	//Process will get at most .3 seconds on the CPU
+
 /* Definition of the process table (multiple of 32 bits) */
 
 struct procent {		/* Entry in the process table		*/
@@ -55,7 +60,6 @@ struct procent {		/* Entry in the process table		*/
 
 	//added by Ben Denison username bdenison
 	int32	prcputot;	/* Total time this process has had on the CPU	*/
-	int32	prctxswbeg;	/* Time the process began in milliseconds	*/
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/
@@ -64,3 +68,4 @@ struct procent {		/* Entry in the process table		*/
 extern	struct	procent proctab[];
 extern	int32	prcount;	/* Currently active processes		*/
 extern	pid32	currpid;	/* Currently executing process		*/
+extern	int32	prctxswbeg;	//Beginning time of last context switch in seconds

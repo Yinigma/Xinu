@@ -25,6 +25,7 @@ struct	memblk	memlist;	/* List of free memory blocks		*/
 
 int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
+int32	prctxswbeg;		//Beginning of context switch
 
 /*------------------------------------------------------------------------
  * nulluser - initialize the system and become the null process

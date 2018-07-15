@@ -54,8 +54,8 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	//Bookkeeping for cpu time
 	//Added by Ben Denison username bdenison
 	int32 curClock = clkmilli;
-	ptold->prcputot += curClock - ptold->prctxswbeg;
-	ptnew->prctxswbeg = curClock;
+	ptold->prcputot += curClock - prctxswbeg;
+	prctxswbeg = curClock;
 
 	preempt = QUANTUM;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);

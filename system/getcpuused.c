@@ -28,7 +28,7 @@ syscall getcputot(pid32 pid){
 
 	if(pid == currpid){
 		//Adjust for time slice
-		cputot += (clkmilli - prptr->prctxswbeg);
+		cputot += (clkmilli - prctxswbeg);
 	}
 	
 	//Restore the mask so that we can handle interrupts again

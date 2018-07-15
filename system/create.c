@@ -38,12 +38,20 @@ pid32	create(
 		return SYSERR;
 	}
 
+	//added by Ben Denison username: bdenison
+	//can't have anyone going over the limit now
+	if(pri16>MAXPRIO){
+		restore(mask);
+		return SYSERR;
+	}
+	//
+
 	prcount++;
 	prptr = &proctab[pid];
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* Initial state is suspended	*/
-	prptr->prprio = priority;
+	prptr->prprio = MAXPRIO;
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;
@@ -56,8 +64,7 @@ pid32	create(
 	//added by Ben Denison username bdenison
 	//Initialize process cpu time to 1
 	prptr->prcputot = 1;
-	//initialize this to zero. It only applies to the null process anyway
-	prptr->prctxswbeg = 0;
+	//
 
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;
