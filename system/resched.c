@@ -3,8 +3,6 @@
 #include <xinu.h>
 
 struct	defer	Defer;
-//bool8 mutexValid = FALSE;
-//sid32 timeMutex;
 
 /*------------------------------------------------------------------------
  *  resched  -  Reschedule processor to highest priority eligible process
@@ -35,28 +33,13 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 		ptold->prstate = PR_READY;
 		insert(currpid, readylist, ptold->prprio);
-		
 	}
-	
-	//if(!mutexValid){
-		//timeMutex = semcreate(1);
-		//mutexValid = TRUE;
-	//}
 
-	
-	
 	/* Force context switch to highest priority ready process */
 
 	currpid = dequeue(readylist);
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
-
-	//Bookkeeping for cpu time
-	//Added by Ben Denison username bdenison
-	int32 curClock = clkmilli;
-	ptold->prcputot += curClock - ptold->prctxswbeg;
-	ptnew->prctxswbeg = curClock;
-
 	preempt = QUANTUM;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 

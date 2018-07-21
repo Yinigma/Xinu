@@ -52,12 +52,6 @@ pid32	create(
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
-	
-	//added by Ben Denison username bdenison
-	//Initialize process cpu time to 1
-	prptr->prcputot = 1;
-	//initialize this to zero. It only applies to the null process anyway
-	prptr->prctxswbeg = 0;
 
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;

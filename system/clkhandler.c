@@ -10,13 +10,7 @@ void	clkhandler()
 {
 	static	uint32	count1000 = 1000;	/* Count to 1000 ms	*/
 
-	//Increment the millisecond clock 
-
-	clkmilli++;
-
 	/* Decrement the ms counter, and see if a second has passed */
-
-	
 
 	if((--count1000) <= 0) {
 

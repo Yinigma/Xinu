@@ -52,10 +52,6 @@ struct procent {		/* Entry in the process table		*/
 	umsg32	prmsg;		/* Message sent to this process		*/
 	bool8	prhasmsg;	/* Nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
-
-	//added by Ben Denison username bdenison
-	int32	prcputot;	/* Total time this process has had on the CPU	*/
-	int32	prctxswbeg;	/* Time the process began in milliseconds	*/
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/

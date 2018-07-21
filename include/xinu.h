@@ -1,12 +1,5 @@
 /* xinu.h - include all system header files */
 
-
-//added by Ben Denison username bdenison
-//I am a madman. I wanted the flag to be global and this is the most global thing ever
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
 #include <kernel.h>
 #include <conf.h>
 #include <process.h>
