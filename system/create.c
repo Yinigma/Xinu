@@ -40,7 +40,7 @@ pid32	create(
 
 	//added by Ben Denison username: bdenison
 	//can't have anyone going over the limit now
-	if(pri16>MAXPRIO){
+	if(priority>MAXPRIO){
 		restore(mask);
 		return SYSERR;
 	}
@@ -51,7 +51,9 @@ pid32	create(
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* Initial state is suspended	*/
+	//Edited by Benjamin Denison username bdenison
 	prptr->prprio = MAXPRIO;
+	//
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;

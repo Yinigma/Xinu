@@ -87,6 +87,10 @@ void	nulluser()
 	/*  something to run when no other process is ready to execute)	*/
 
 	while (TRUE) {
+		#if DEBUG
+		kprintf("It's me! The null user! Wa ha ha!\n");
+		kprintf("I can't stop printing or else Xinu will crash! WA HA HA!\n");
+		#endif
 		;		/* Do nothing */
 	}
 

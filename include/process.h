@@ -41,7 +41,8 @@
 //Added by Ben Denison
 //username: bdenison
 
-#define MAXPRIO		300	//Process will get at most .3 seconds on the CPU
+#define MAXPRIO		32767	//Max prio being the positive limit for a 16
+				//bit signed integer
 
 /* Definition of the process table (multiple of 32 bits) */
 

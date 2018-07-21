@@ -3,8 +3,8 @@
 #include <xinu.h>
 
 struct	defer	Defer;
-//bool8 mutexValid = FALSE;
-//sid32 timeMutex;
+bool8 mutexValid = FALSE;
+sid32 dbMutex;
 
 /*------------------------------------------------------------------------
  *  resched  -  Reschedule processor to highest priority eligible process
@@ -14,6 +14,7 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 {
 	struct procent *ptold;	/* Ptr to table entry for old process	*/
 	struct procent *ptnew;	/* Ptr to table entry for new process	*/
+	pid32 oldpid = currpid;
 
 	/* If rescheduling is deferred, record attempt and return */
 
@@ -22,9 +23,33 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 		return;
 	}
 
+	//Added by Ben Denison username: bdenison
+	if(mutexValid==FALSE){
+		dbMutex = semcreate(1);
+		mutexValid = TRUE;
+	}
+	//
+
 	/* Point to process table entry for the current (old) process */
 
 	ptold = &proctab[currpid];
+
+	//Bookkeeping for cpu time
+	//Added by Ben Denison username bdenison
+	int32 curClock = clkmilli;
+	ptold->prcputot += curClock - prctxswbeg;
+	prctxswbeg = curClock;
+	
+	//Update process priority for dynamic scheduling
+	
+	//ignore if null proc
+	if(oldpid!=0){
+		ptold->prprio = MAXPRIO - ptold->prcputot;
+		if(ptold->prprio<1){
+			ptold->prprio = 1;
+		}
+	}
+	//
 
 	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
 		if (ptold->prprio > firstkey(readylist)) {
@@ -38,12 +63,6 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 		
 	}
 	
-	//if(!mutexValid){
-		//timeMutex = semcreate(1);
-		//mutexValid = TRUE;
-	//}
-
-	
 	
 	/* Force context switch to highest priority ready process */
 
@@ -51,11 +70,13 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	ptnew = &proctab[currpid];
 	ptnew->prstate = PR_CURR;
 
-	//Bookkeeping for cpu time
-	//Added by Ben Denison username bdenison
-	int32 curClock = clkmilli;
-	ptold->prcputot += curClock - prctxswbeg;
-	prctxswbeg = curClock;
+
+
+	#if DEBUG
+	//wait(dbMutex);
+	kprintf("Old Prio: %d, old cpu total: %d, old id:%s, clock value: %d\n",ptold->prprio, ptold->prcputot, ptold->prname, curClock);
+	//signal(dbMutex);
+	#endif
 
 	preempt = QUANTUM;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);

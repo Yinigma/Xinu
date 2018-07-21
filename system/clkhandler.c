@@ -45,6 +45,10 @@ void	clkhandler()
 	/*   remaining time reaches zero			     */
 
 	if((--preempt) <= 0) {
+		#if DEBUG
+		//I'm sorry, but this was just too annoying.
+		//kprintf("Clock handler called.\n");
+		#endif
 		preempt = QUANTUM;
 		resched();
 	}
