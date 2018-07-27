@@ -17,4 +17,5 @@ clkdisp:
 
 		sti			# Restore interrupt status
 		popal			# Restore registers
+		call	cbhandler	// Call callback handler
 		iret			# Return from interrupt

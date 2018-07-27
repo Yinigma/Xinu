@@ -58,6 +58,16 @@ pid32	create(
 	prptr->prdesc[1] = CONSOLE;
 	prptr->prdesc[2] = CONSOLE;
 
+	//Added by Benjamin Denison username bdenison
+	prptr->sendblkflag = 0;
+  	prptr->sendblkmsg = 0;
+  	prptr->sendblkrcp = -1;
+	prptr->rcpblkflag = 0;
+	//claim it's queue in the quetab based on pid and clear it if needed (this might not be the case if I'm eventually going to guarantee that the 
+	//queue is empty when a process terminates)
+  	prptr->sendqueue = sendqueuebeg + pid * 2;
+	clear(prptr->sendqueue);
+
 	/* Initialize stack as if the process was called		*/
 
 	*saddr = STACKMAGIC;

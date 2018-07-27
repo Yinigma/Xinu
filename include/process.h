@@ -16,6 +16,8 @@
 #define	PR_SUSP		5	/* Process is suspended			*/
 #define	PR_WAIT		6	/* Process is on semaphore queue	*/
 #define	PR_RECTIM	7	/* Process is receiving with timeout	*/
+//added by Benjamin Denison username bdenison as part of lab instructions
+#define PR_SNDBLK	20	// Process is waiting until another process's message is empty
 
 /* Miscellaneous process definitions */
 
@@ -38,6 +40,7 @@
 
 #define NDESC		5	/* must be odd to make procent 4N bytes	*/
 
+
 /* Definition of the process table (multiple of 32 bits) */
 
 struct procent {		/* Entry in the process table		*/
@@ -52,6 +55,16 @@ struct procent {		/* Entry in the process table		*/
 	umsg32	prmsg;		/* Message sent to this process		*/
 	bool8	prhasmsg;	/* Nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
+	///////////////////////////////////////////////////////////////////////////
+	//added by Benjamin Denison, username bdenison, as part of lab instructions
+	///////////////////////////////////////////////////////////////////////////
+	bool8 sendblkflag;      /* Nonzero iff blocking to send 	*/
+  	umsg32 sendblkmsg;      /* Message attempting to send 		*/
+  	pid32 sendblkrcp;       /* PID of recipient			*/
+	bool8 rcpblkflag;       /* Nonzero iff one or more process are waiting to send */
+  	qid16 sendqueue;        /* Index to FIFO queue of blocked senders */
+	bool8 prhascb;          /* Nonzero iff callback function has been registered */
+  	int (* fptr) ();        /* Pointer to cb function if one has been registered */
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/
@@ -60,3 +73,5 @@ struct procent {		/* Entry in the process table		*/
 extern	struct	procent proctab[];
 extern	int32	prcount;	/* Currently active processes		*/
 extern	pid32	currpid;	/* Currently executing process		*/
+//added by Benjamin Denison username bdenison
+extern 	qid16	sendqueuebeg;	//beginning of sendblk queues in the quetab

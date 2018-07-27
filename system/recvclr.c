@@ -16,7 +16,8 @@ umsg32	recvclr(void)
 	prptr = &proctab[currpid];
 	if (prptr->prhasmsg == TRUE) {
 		msg = prptr->prmsg;	/* Retrieve message		*/
-		prptr->prhasmsg = FALSE;/* Reset message flag		*/
+		//Added by Benjamin Denison username bdenison
+		popsndqueue();
 	} else {
 		msg = OK;
 	}

@@ -50,3 +50,17 @@ pid32	dequeue(
 	queuetab[pid].qnext = EMPTY;
 	return pid;
 }
+
+//added by Benjamin Denison username bdenison
+int32	clear(
+		qid16		q
+	)
+{
+	if (isbadqid(q)) {
+		return SYSERR;
+	}
+	while(!isempty(q)){
+		dequeue(q);
+	}
+	return OK;
+}

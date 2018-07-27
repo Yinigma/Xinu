@@ -35,7 +35,8 @@ umsg32	recvtime(
 
 	if (prptr->prhasmsg) {
 		msg = prptr->prmsg;	/* Retrieve message		*/
-		prptr->prhasmsg = FALSE;/* Reset message indicator	*/
+		//Edited by Benjamin Denison username bdenison
+		popsndqueue();
 	} else {
 		msg = TIMEOUT;
 	}

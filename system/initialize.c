@@ -25,6 +25,7 @@ struct	memblk	memlist;	/* List of free memory blocks		*/
 
 int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
+qid16	sendqueuebeg;		// QID of the beginning of the block sender queues
 
 /*------------------------------------------------------------------------
  * nulluser - initialize the system and become the null process
@@ -162,6 +163,13 @@ static	void	sysinit()
 	/* Create a ready list for processes */
 
 	readylist = newqueue();
+
+	//Added by Benjamin Denison username bdenison
+	//Initialize queues for blocked senders
+	sendqueuebeg = newqueue();
+	for(i = 1; i < NPROC; i++){
+		newqueue();
+	}
 
 	/* Initialize the real time clock */
 

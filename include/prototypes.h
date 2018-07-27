@@ -18,6 +18,16 @@ extern	status	ascdate(uint32, char *);
 
 extern	status	bufinit(void);
 
+//added by Benjamin Denison username bdenison
+
+// in file cbhandler.c
+
+extern void cbhandler(void);
+
+// in file cbreg.c
+
+extern syscall cbreg( int (* fnp) (void) );
+//
 /* in file chprio.c */
 
 extern	pri16	chprio(pid32, pri16);
@@ -66,6 +76,7 @@ extern	uint32	dot2ip(char *, uint32 *);
 
 extern	pid32	enqueue(pid32, qid16);
 extern	pid32	dequeue(qid16);
+extern	int32	clear(qid16);
 
 /* in file intutils.S */
 
@@ -349,6 +360,10 @@ extern	void	pdumph(struct netpacket *);
 
 /* in file platinit.c */
 extern	void	platinit();
+
+//Added by Benjamin Denison username bdenison
+//in file popsndqueue.c
+extern 	void	popsndqueue();
 
 /* in file ptclear.c */
 extern	void	_ptclear(struct ptentry *, uint16, int32 (*)(int32));
